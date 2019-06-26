@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import agate
 
 logger = logging.getLogger('csvhound')
@@ -38,9 +39,9 @@ class BaseHound:
             logger.warning(str(e))
             exit()
 
-    def describe_table(self):
+    def describe_table(self, output=sys.stdout):
         logger.debug('Describing current table.')
-        self._table.print_structure()
+        self._table.print_structure(output)
 
     def distinct_values(self, key=None, with_count=False):
         logger.debug('distinct values for: ' + key)
@@ -52,3 +53,7 @@ class BaseHound:
             table = self._table.select(key).distinct(key)
         
         table.print_table()
+
+    def get_columns(self):
+        columns = self._table.column_types
+        print(columns[1])

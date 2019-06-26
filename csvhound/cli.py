@@ -5,6 +5,8 @@ Simple example of a full screen application with a vertical split.
 This will show a window on the left for user input. When the user types, the
 reversed input is shown on the right. Pressing Ctrl-Q will quit the application.
 """
+import io
+
 from prompt_toolkit.application import Application
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.key_binding import KeyBindings
@@ -17,17 +19,34 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import BufferControl, FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 
+
+import csvhound.core
+
+model = csvhound.core.BaseHound()
+table = model.get_table_from_file('sample-data/pydata-event.csv')
+# model.get_columns()
+# exit()
+# model.describe_table()
+# model.distinct_values('Size', with_count=False)
+
 # 3. Create the buffers
 #    ------------------
 
 left_buffer = Buffer()
 right_buffer = Buffer()
 
+# left_buffer.text= "THIS IS WHERE TABLE INFO SHOULD GO"
+output = io.StringIO()
+model.describe_table(output=output)
+left_buffer.text = output.getvalue()
+output.close()
+
+right_buffer.text = "MENU\n--------\nOpen File..\n"
 # 1. First we create the layout
 #    --------------------------
 
 left_window = Window(BufferControl(buffer=left_buffer))
-right_window = Window(BufferControl(buffer=right_buffer))
+right_window = Window(BufferControl(buffer=right_buffer), width=15)
 
 
 body = VSplit([
@@ -52,7 +71,7 @@ body = VSplit([
 
 def get_titlebar_text():
     return [
-        ('class:title', ' Hello world '),
+        ('class:title', ' CSV Hound'),
         ('class:title', ' (Press [Ctrl-Q] to quit.)'),
     ]
 
@@ -61,10 +80,10 @@ root_container = HSplit([
     # The titlebar.
     Window(height=1,
            content=FormattedTextControl(get_titlebar_text),
-           align=WindowAlign.CENTER),
+           align=WindowAlign.LEFT, style='reverse'),
 
     # Horizontal separator.
-    Window(height=1, char='-', style='class:line'),
+    # Window(height=1, char='-', style='class:line'),
 
     # The 'body', like defined above.
     body,
@@ -124,10 +143,10 @@ def default_buffer_changed(_):
     When the buffer on the left changes, update the buffer on
     the right. We just reverse the text.
     """
-    right_buffer.text = left_buffer.text[::-1]
+    # right_buffer.text = left_buffer.text[::-1]
 
 
-left_buffer.on_text_changed += default_buffer_changed
+# left_buffer.on_text_changed += default_buffer_changed
 
 
 # 3. Creating an `Application` instance
