@@ -23,7 +23,10 @@ from prompt_toolkit.layout.menus import CompletionsMenu
 from prompt_toolkit.layout.processors import (BeforeInput)
 from prompt_toolkit.widgets import Box, Button, Frame, Label, TextArea
 
+from csvhound.logger import logger
 import csvhound.core
+
+logger.debug(__name__ + ' imported')
 
 class HoundCli(object):
     """
@@ -142,7 +145,7 @@ class HoundCli(object):
 
     # accept_handler for open command
     def do_open(self, _):
-
+        logger.debug('attempting to open file...')
         model = csvhound.core.BaseHound()
         # this is only for initial PoC!
         # TODO: add validation, etc.

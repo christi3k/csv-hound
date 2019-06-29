@@ -1,6 +1,6 @@
-import csvhound
+# temporary (?) entry point for csvcound client
+# import csvhound
+import csvhound.client
 
-if __name__ == '__main__':
-  csvhound.cli.run()
-# csvhound.cli.do_test_prompt()
-# csvhound.cli.do_message_dialog()
+# if __name__ == '__main__':
+  # csvhound.client.run()

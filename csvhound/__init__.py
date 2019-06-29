@@ -1,6 +1,4 @@
 import logging
-import csvhound.core
-import csvhound.cli
 
 def set_stream_logger(name='csvhound', level=logging.DEBUG, format_string=None):
     """
