@@ -15,11 +15,11 @@ def file_exists(path):
             raise FileNotFoundError('File not found.')
         else:
             logger.debug('File ' + path + ' exists.')
-            # return True
+            return True
     except FileNotFoundError as e:
         logger.warning(str(e))
-        exit()
-        # return False
+        # exit()
+        return False
         
 class BaseHound:
 

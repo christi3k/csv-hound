@@ -145,26 +145,27 @@ class HoundCli(object):
 
     # accept_handler for open command
     def do_open(self, _):
-        logger.debug('attempting to open file...')
-        model = csvhound.core.BaseHound()
-        # this is only for initial PoC!
-        # TODO: add validation, etc.
-        table = model.get_table_from_file(_.text)
-        # model.get_columns()
-        # exit()
-        output = io.StringIO()
+        logger.debug('attempting to open file ['+_.text+']...')
+        if(csvhound.core.file_exists(_.text)):
+            model = csvhound.core.BaseHound()
+            table = model.get_table_from_file(_.text)
+            # model.get_columns()
+            # exit()
+            output = io.StringIO()
 
-        model.describe_table(output=output)
-        contents = output.getvalue()
-        output.close()
+            model.describe_table(output=output)
+            contents = output.getvalue()
+            output.close()
 
-        # model.distinct_values('Size', with_count=False)
+            # model.distinct_values('Size', with_count=False)
 
-        self.left_buffer.text = contents
-        # right_buffer.text = _.text
-        # hide previous command buffer control
+            self.left_buffer.text = contents
+            # right_buffer.text = _.text
+            # hide previous command buffer control
+            self.status_area.content = FormattedTextControl(self.get_status_text('file open: ' + _.text))
+        else:
+            self.status_area.content = FormattedTextControl(self.get_status_text('file not found: ' + _.text))
         self.command_area.children[0].content = DummyControl()
-        self.status_area.content = FormattedTextControl(self.get_status_text('file open: ' + _.text))
         app = get_app()
         app.layout.focus(self.left_buffer)
 
