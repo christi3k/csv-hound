@@ -136,6 +136,8 @@ class HoundCli(object):
 
         self.application = None
 
+        self._current_table = None
+
     # define initial titlebar text
     def get_titlebar_text(self):
         return [
@@ -153,19 +155,15 @@ class HoundCli(object):
         logger.debug('attempting to open file ['+_.text+']...')
         if(csvhound.core.file_exists(_.text)):
             model = csvhound.core.BaseHound()
-            table = model.get_table_from_file(_.text)
-            # model.get_columns()
-            # exit()
-            output = io.StringIO()
+            self._current_table = model.get_table_from_file(_.text)
 
-            model.describe_table(output=output)
-            contents = output.getvalue()
-            output.close()
+            output = "Rows: " + str(len(self._current_table.rows))
+            output += "\nColumns: " + str(len(self._current_table.columns))
 
-            # model.distinct_values('Size', with_count=False)
+            # rows = model.describe_table()
 
-            self.left_buffer.set_document(Document(contents), bypass_readonly=True)
-            # right_buffer.text = _.text
+            self.left_buffer.set_document(Document(output), bypass_readonly=True)
+
             # hide previous command buffer control
             self.status_area.content = FormattedTextControl(self.get_status_text('file open: ' + _.text))
         else:

@@ -39,9 +39,12 @@ class BaseHound:
             logger.warning(str(e))
             exit()
 
-    def describe_table(self, output=sys.stdout):
+    def describe_table(self):
         logger.debug('Describing current table.')
-        self._table.print_structure(output)
+        name_column = [n for n in self._table._column_names]
+        type_column = [t.__class__.__name__ for t in self._table._column_types]
+        rows = zip(name_column, type_column)
+        return rows
 
     def distinct_values(self, key=None, with_count=False):
         logger.debug('distinct values for: ' + key)
