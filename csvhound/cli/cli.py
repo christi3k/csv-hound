@@ -4,6 +4,7 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.completion import PathCompleter, WordCompleter
 from prompt_toolkit.buffer import Buffer
+from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import (
     focus_next,
@@ -34,12 +35,16 @@ class HoundCli(object):
     """
 
     def __init__(self):
+
         # create left and right buffers in main area
-        self.left_buffer = Buffer()
+        self.left_buffer = Buffer(read_only=True)
         self.right_buffer = Buffer()
 
         # sample text to get us going
-        self.left_buffer.text = 'test\none\ntwo\nthree'
+        test_text = 'test\none\ntwo\nthree'
+
+        # this is how to explicity write new content to a read-only buffer
+        self.left_buffer.set_document(Document(test_text), bypass_readonly=True)
 
         # create windows; you need a Windor and a BufferControl to display Buffer
         # content
@@ -159,7 +164,7 @@ class HoundCli(object):
 
             # model.distinct_values('Size', with_count=False)
 
-            self.left_buffer.text = contents
+            self.left_buffer.set_document(Document(contents), bypass_readonly=True)
             # right_buffer.text = _.text
             # hide previous command buffer control
             self.status_area.content = FormattedTextControl(self.get_status_text('file open: ' + _.text))
