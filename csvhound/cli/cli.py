@@ -70,27 +70,30 @@ class HoundCli(object):
             self.right_window,
         ])
 
-        self.status_area = Window(
-                        height=1,
-                        content=DummyControl(),
-                        align=WindowAlign.LEFT,
-                        style='class:reverse')
+        self.title_area = Window(height=1,
+                            content=FormattedTextControl(self.get_titlebar_text),
+                            align=WindowAlign.LEFT,
+                            style='class:reverse')
 
+        self.message_area = Window(
+                            height=1,
+                            content=DummyControl(),
+                            align=WindowAlign.LEFT,
+                            style='class:reverse')
+
+        self.status_area = Window(
+                            height=1,
+                            content=DummyControl(),
+                            align=WindowAlign.LEFT,
+                            style='class:reverse')
 
         self.float_content = HSplit([
-            # The titlebar.
-            Window(height=1,
-                   content=FormattedTextControl(self.get_titlebar_text),
-                   # content=DummyControl(),
-                   align=WindowAlign.LEFT,
-                   style='class:reverse'),
-            self.status_area,
-            # Horizontal separator.
+            self.title_area,
+            self.message_area,
             Window(height=1, char='-', style='class:line'),
             self.command_area,
-            # text_area,
-            # Window(height=1, char='-', style='class:line'),
-            self.main_body
+            self.main_body,
+            self.status_area
         ])
 
         self.root_container = FloatContainer(
