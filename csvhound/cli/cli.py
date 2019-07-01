@@ -54,7 +54,7 @@ class HoundCli(object):
         self.command_window = Window(height=1, style='class:line')
         self.command_area = HSplit([
             self.command_window,
-            Window(height=1, char='-', style='class:line')
+            Window(height=1, char='\u2500', style='class:line')
             ])
 
 
@@ -64,7 +64,7 @@ class HoundCli(object):
             # A vertical line in the middle. We explicitly specify the width, to make
             # sure that the layout engine will not try to divide the whole width by
             # three for all these windows.
-            Window(width=1, char='|', style='class:line'),
+            Window(width=1, char='\u2502', style='class:line'),
 
             # Display the Result buffer on the right.
             self.right_window,
@@ -73,24 +73,27 @@ class HoundCli(object):
         self.title_area = Window(height=1,
                             content=FormattedTextControl(self.get_titlebar_text),
                             align=WindowAlign.LEFT,
-                            style='class:reverse')
+                            # style='class:reverse')
+                            style='bg:DarkBlue Gold')
 
         self.message_area = Window(
                             height=1,
                             content=DummyControl(),
                             align=WindowAlign.LEFT,
-                            style='class:reverse')
+                            # style='class:reverse')
+                            style='bg:DarkBlue Gold')
 
         self.status_area = Window(
                             height=1,
                             content=DummyControl(),
                             align=WindowAlign.LEFT,
-                            style='class:reverse')
+                            style='bg:DarkBlue Gold')
+                            # style='class:reverse')
 
         self.float_content = HSplit([
             self.title_area,
             self.message_area,
-            Window(height=1, char='-', style='class:line'),
+            Window(height=1, char='\u2500', style='class:line'),
             self.command_area,
             self.main_body,
             self.status_area
@@ -150,7 +153,8 @@ class HoundCli(object):
 
     def get_status_text(self, message):
         return [
-            ('class:red', '     '+message),
+                ('Gold', '     '+message),
+            # ('class:red', '     '+message),
         ]
 
     # accept_handler for open command
