@@ -3,6 +3,7 @@ import unittest
 import csvhound.core
 import agate
 from agate import AgateTestCase
+from agate.data_types import *
 
 class HoundTestCase(AgateTestCase):
     def test_model_creation(self):
@@ -21,42 +22,31 @@ class HoundTestCase(AgateTestCase):
 
         self.assertRows(table_hound, table_agate.rows)
 
-    # def test_describe_table(self):
-        # self.rows = (
-            # (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM', '4:15'),
-            # (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM', '6:18'),
-            # (None, 'b', None, None, None, None)
-        # )
+    def test_describe_table(self):
+        self.rows = (
+            (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM', '4:15'),
+            (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM', '6:18'),
+            (None, 'b', None, None, None, None)
+        )
 
-        # self.column_names = [
-            # 'number', 'text', 'boolean', 'date', 'datetime', 'timedelta'
-        # ]
+        self.column_names = [
+            'number', 'text', 'boolean', 'date', 'datetime', 'timedelta'
+        ]
 
-        # self.column_types = [
-            # Number(), Text(), Boolean(), Date(), DateTime(), TimeDelta()
-        # ]
-        # model = csvhound.core.BaseHound()
-        # table = model.get_table_from_file('test.csv')
-        # # should return an iterable of columns and column types
-        # description = model.describe_table()
-        # zipped = zip(self.column_names, self.column_types)
+        self.column_types = [
+            Number().__class__.__name__, 
+            Text().__class__.__name__, 
+            Boolean().__class__.__name__, 
+            Date().__class__.__name__, 
+            DateTime().__class__.__name__, 
+            TimeDelta().__class__.__name__
+        ]
+        model = csvhound.core.BaseHound()
+        table = model.get_table_from_file('test.csv')
+        description = model.describe_table()
+        zipped = zip(self.column_names, self.column_types)
 
-
-# class TestStringMethods(unittest.TestCase):
-
-    # def test_upper(self):
-        # self.assertEqual('foo'.upper(), 'FOO')
-
-    # def test_isupper(self):
-        # self.assertTrue('FOO'.isupper())
-        # self.assertFalse('Foo'.isupper())
-
-    # def test_split(self):
-        # s = 'hello world'
-        # self.assertEqual(s.split(), ['hello', 'world'])
-        # # check that s.split fails when the separator is not a string
-        # with self.assertRaises(TypeError):
-            # s.split(2)
+        self.assertListEqual(list(description), list(zipped))
 
 if __name__ == '__main__':
     unittest.main()
