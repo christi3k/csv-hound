@@ -48,5 +48,47 @@ class HoundTestCase(AgateTestCase):
 
         self.assertListEqual(list(description), list(zipped))
 
+    def test_distinct_values(self):
+        column_names: List = [
+            'id',
+            'name', 
+            'dob',
+            'last seen',
+            'size', 
+            'active',
+            ]
+        column_types: List = [
+                agate.Number(),
+                agate.Text(), 
+                agate.Date(),
+                agate.DateTime(),
+                agate.Text(), 
+                agate.Boolean(),
+                ]
+
+        rows = [
+                (1, 'Alvin Cotton', '03-01-1980', '06-30-2019 12:12:00','L', True),
+                (2, 'Usmaan Rojas', '01-12-1978', '06-30-2019 12:12:00','S', False),
+                (3, 'Kingston Odling', '04-09-1990', '06-30-2019 12:12:00','M', True),
+                (3, 'Pooja Gillespie', '10-07-1985', '06-30-2019 12:12:00','S', True),
+                (4, 'Hal Blake', '08-17-1989', '06-30-2019 12:12:00','L', True),
+                (5, 'Shannen Blevins', '06-10-1981', '06-30-2019 12:12:00','M', False),
+                (5, 'Courteney Weston', '04-23-1992', '06-30-2019 12:12:00','M', False),
+                (6, 'Conner Calhoun', '05-16-1977', '06-30-2019 12:12:00','XL', True),
+                (7, 'Susie Rasmussen', '02-08-1987', '06-30-2019 12:12:00','L', False),
+                (8, 'Cassie Beltran', '12-15-1982', '06-30-2019 12:12:00','M', True)
+            ]
+
+        model = csvhound.core.BaseHound()
+        table = model.get_table_from_file('sample-data/test-distinct.csv')
+        distinct = model.distinct_values('size')
+        agate_table = agate.Table(rows, column_names, column_types)
+        distinct_agate = agate_table.select('size').distinct('size')
+
+        # now do the testing
+        self.assertColumnNames(distinct, ('size',))
+        self.assertColumnTypes(distinct, [type(c) for c in distinct.column_types])
+        self.assertRows(distinct, distinct_agate)
+
 if __name__ == '__main__':
     unittest.main()

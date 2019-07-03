@@ -30,7 +30,6 @@ class BaseHound:
         self._distinct: Dict = {}
 
     def get_table_from_file(self, input_file: str, column_types: List = None) -> agate.Table:
-        # if file_exists(input_file):
         try:
             self._table: agate.Table = agate.Table.from_csv(input_file, column_types=column_types)
             logger.info('- Successfully created agate table from csv file.')
@@ -47,7 +46,7 @@ class BaseHound:
         rows: Iterator = zip(name_column, type_column)
         return rows
 
-    def distinct_values(self, key=None, with_count=False):
+    def distinct_values(self, key=None, with_count=False) -> agate.Table:
         logger.debug('distinct values for: ' + key)
         if with_count:
             table = self._table.group_by(key)
@@ -55,8 +54,8 @@ class BaseHound:
             table = table.aggregate([('count',agate.Count())])
         else:
             table = self._table.select(key).distinct(key)
-        
-        table.print_table()
+       
+        return table
 
     def get_columns(self):
         columns = self._table.column_types
