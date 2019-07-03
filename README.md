@@ -49,7 +49,7 @@ The meta stuff includes:
 - Add mypy type hinting.
 - Set up linting and make sure following PEP8.
 - Refactor using asyncio?
-- Decide on and add a license.
+- ~~Decide on and add a license.~~
 
 Smaller tasks on the near horizon include (e.g. next tasks I'm working on):
 
