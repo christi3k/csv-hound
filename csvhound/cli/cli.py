@@ -166,8 +166,16 @@ class HoundCli(object):
 
             output = "Rows: " + str(len(self._current_table.rows))
             output += "\nColumns: " + str(len(self._current_table.columns))
+            output += "\n---------------------------------------------------"
+            output += '\n'
+            output += '\nTABLE COLUMNS:\n\n'
 
             # rows = model.describe_table()
+            details = model.describe_table()
+            for detail in details:
+                # print(detail)
+                output += detail[0] + ' [' + detail[1] + ']\n'
+
 
             self.left_buffer.set_document(Document(output), bypass_readonly=True)
 

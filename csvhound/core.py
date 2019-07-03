@@ -54,7 +54,6 @@ class BaseHound:
             table = table.aggregate([('count',agate.Count())])
         else:
             table = self._table.select(key).distinct(key)
-       
         return table
 
     def get_columns(self):
