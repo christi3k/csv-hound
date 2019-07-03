@@ -30,7 +30,7 @@ unfamiliar with Python.
 - Built for Python 3+.
 - Functional for a wide range of CSV-based datasets.
 - Usable by folks unfamiliar with programming.
-- 
+- Showcase good software engineering skills. Be pythonic.
 
 ## Installation
 
@@ -44,19 +44,22 @@ There is so much to do on this project.
 
 The meta stuff includes:
 
-- Add tests.
+- Add tests. _(IN PROGRESS, using unittest)_.
 - Add documentation.
-- Add mypy type hinting.
+- Add mypy type hinting. _(IN PROGRESS)_
 - Set up linting and make sure following PEP8.
 - Refactor using asyncio?
-- ~~Decide on and add a license.~~
+- ~~Decide on and add a license.~~ _(DONE, MIT)_
 
 Smaller tasks on the near horizon include (e.g. next tasks I'm working on):
 
-- Extend Agate to have describe table methods that load column info into easily
-  accesible data structure.
+- ~~Extend Agate to have describe table methods that load column info into easily
+  accesible data structure.~~
 - Add 'Show' command to show table's column names and their types.
 - Add 'Sample' and 'Distinct' commands for use on specific columns.
+- Further seperate out processing and display logic from prompt_toolkit handlers.
+- Refactor tests to reduce redundant code. (e.g. use SetUp().)
+- Explore using templating library?
 
 Larger features that are planned include:
 
