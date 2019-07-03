@@ -1,4 +1,4 @@
-agate==1.6.1
+-e git+https://github.com/christi3k/agate.git@81290d1ab7c32e9d7ec5c7ed301d738b37b68537#egg=agate
 Babel==2.7.0
 future==0.17.1
 isodate==0.6.0
