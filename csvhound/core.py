@@ -3,13 +3,15 @@ import os
 import sys
 import agate
 
+from typing import Dict, List, Iterator
+
 logger = logging.getLogger('csvhound')
 logger.debug(__name__ + ' module loaded')
 
-def do_another_thing():
+def do_another_thing() -> None:
     logger.debug('do another thing')
 
-def file_exists(path):
+def file_exists(path) -> bool:
     try:
         if(not os.path.exists(path)):
             raise FileNotFoundError('File not found.')
@@ -23,15 +25,14 @@ def file_exists(path):
         
 class BaseHound:
 
-    def __init__(self):
+    def __init__(self) -> None:
         logger.debug('BaseHound class instantiated.')
-        self._table = None
-        self._distinct = {}
+        self._distinct: Dict = {}
 
-    def get_table_from_file(self, input_file, column_types=None):
+    def get_table_from_file(self, input_file: str, column_types: List = None) -> agate.Table:
         # if file_exists(input_file):
         try:
-            self._table = agate.Table.from_csv(input_file, column_types=column_types)
+            self._table: agate.Table = agate.Table.from_csv(input_file, column_types=column_types)
             logger.info('- Successfully created agate table from csv file.')
             return self._table
         except BaseException as e:
@@ -39,11 +40,11 @@ class BaseHound:
             logger.warning(str(e))
             exit()
 
-    def describe_table(self):
+    def describe_table(self) -> Iterator:
         logger.debug('Describing current table.')
-        name_column = [n for n in self._table._column_names]
-        type_column = [t.__class__.__name__ for t in self._table._column_types]
-        rows = zip(name_column, type_column)
+        name_column: List = [n for n in self._table.column_names]
+        type_column: List = [t.__class__.__name__ for t in self._table.column_types]
+        rows: Iterator = zip(name_column, type_column)
         return rows
 
     def distinct_values(self, key=None, with_count=False):
