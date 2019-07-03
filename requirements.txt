@@ -1,8 +1,11 @@
--e git+https://github.com/christi3k/agate.git@81290d1ab7c32e9d7ec5c7ed301d738b37b68537#egg=agate
+-e git+https://github.com/wireservice/agate.git@e3078dca8b3566e8408e65981f79918c2f36f9fe#egg=agate
+-e git+git@github.com:christi3k/agate-stubs.git@2d75d166037d709a063552ed28152d3e5c4fed02#egg=agate_stubs
 Babel==2.7.0
 future==0.17.1
 isodate==0.6.0
 leather==0.3.3
+mypy==0.711
+mypy-extensions==0.4.1
 parsedatetime==2.4
 prompt-toolkit==2.0.9
 Pygments==2.4.2
@@ -11,4 +14,5 @@ pytimeparse==1.1.8
 pytz==2019.1
 six==1.12.0
 text-unidecode==1.2
+typed-ast==1.4.0
 wcwidth==0.1.7
