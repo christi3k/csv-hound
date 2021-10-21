@@ -1,6 +1,6 @@
 -e git+https://github.com/wireservice/agate.git@e3078dca8b3566e8408e65981f79918c2f36f9fe#egg=agate
 -e git+git@github.com:christi3k/agate-stubs.git@2d75d166037d709a063552ed28152d3e5c4fed02#egg=agate_stubs
-Babel==2.7.0
+Babel==2.9.1
 future==0.17.1
 isodate==0.6.0
 leather==0.3.3
